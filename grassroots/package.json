@@ -8,11 +8,13 @@
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "server": "node server/index.js"
+    "server": "nodemon --watch server server/index.js"
   },
   "dependencies": {
-    "@rollup/plugin-commonjs": "^26.0.1",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "nodemon": "^3.1.4",
+    "openai": "^4.53.2",
     "path": "^0.12.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
