@@ -5,7 +5,7 @@ export default function StartButton({startClick}) {
     <button
     onClick={startClick}
     >
-      Push Me</button>
+      Submit Details</button>
     </>
   )
 }
