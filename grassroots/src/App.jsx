@@ -1,19 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import {useState} from 'react'
+import axios from 'axios'
 import './App.css'
+import StartButton from './components/StartButton'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [aiChat, setAiChat] = useState('Talk to me!')
+
+  function startClick() {
+    axios({
+      method: 'get',
+      url: '/stream',
+      responseType: 'stream'
+    })
+      .then((response) => {
+        setAiChat(response.data)
+      });
+  }
 
   return (
     <>
-      <h1>
-        Grassroots bot
-      </h1>
-      <div>
-        Chat to AI about your grassroots campaign
-      </div>
+    <img src='/gr.svg'></img>
+    <h1>
+      Grassroots bot
+    </h1>
+    <StartButton startClick={startClick}/>
+    <p>{aiChat}</p>
+    <div>
+      Chat to AI about your grassroots campaign
+    </div>
     </>
   )
 }
