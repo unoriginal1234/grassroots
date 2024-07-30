@@ -22,6 +22,7 @@ function App() {
     })
       .then((response) => {
         setAiChat(response.data)
+        console.log(response)
       })
       .catch((error) =>{
         alert(error)
