@@ -2,5 +2,5 @@
   <!-- Circle Background -->
   <circle cx="50" cy="50" r="45" fill="pink" />
   <!-- Text "GR" -->
-  <text x="50" y="65" font-family="Arial" font-size="40" font-weight="bold" fill="blue" text-anchor="middle">GR</text>
+  <text x="50" y="65" font-family="Arial" font-size="40" font-weight="bold" fill="blue" text-anchor="middle">GB</text>
 </svg>

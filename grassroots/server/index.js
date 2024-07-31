@@ -12,11 +12,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express()
+
 const port = process.env.port || 4000
+
+app.use(express.json());
 
 app.use(express.static(path.join(__dirname, '../dist')))
 
-app.get('/stream', goofballStream)
+app.post('/stream', goofballStream)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
