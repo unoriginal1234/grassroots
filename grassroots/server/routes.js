@@ -8,14 +8,17 @@ const openai = openaiConnect();
 const assistant = process.env.goofball_ID;
 
 export default async function goofballStream(req, res) {
+  console.log('hi');
   // Set headers to keep the connection open and indicate streaming content
-  res.setHeader('Content-Type', 'text/plain');
+  res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Transfer-Encoding', 'chunked');
+  res.setHeader('Connection', 'keep-alive');
+  // res.setHeader('Response-Type', 'stream')
 
   let project = 'Rocket to Nowhere';
   let country = 'USA';
-  let goal = '$30,000'
-  let category = 'Film'
+  let goal = '$30,000';
+  let category = 'Film';
 
   try {
 
@@ -29,32 +32,41 @@ export default async function goofballStream(req, res) {
       }
     );
 
-    let run = await openai.beta.threads.runs.createAndPoll(
-      thread.id,
-      {
-        assistant_id: assistant,
-        // instructions: "Please address the user as Jane Doe. The user has a premium account."
-      }
-    );
+    // We use the stream SDK helper to create a run with
+// streaming. The SDK provides helpful event listeners to handle
+// the streamed response.
 
-    if (run.status === 'completed') {
-      const messages = await openai.beta.threads.messages.list(
-        run.thread_id
-      );
-      for (const message of messages.data.reverse()) {
-        res.write(`${message.role} > ${message.content[0].text.value}`);
+  const run = openai.beta.threads.runs.stream(thread.id, {
+    assistant_id: assistant
+  })
+    .on('textCreated', (text) => res.write('\nassistant > '))
+    .on('textDelta', (textDelta, snapshot) => res.write(textDelta.value))
+    .on('toolCallCreated', (toolCall) => res.write(`\nassistant > ${toolCall.type}\n\n`))
+    .on('toolCallDelta', (toolCallDelta, snapshot) => {
+      if (toolCallDelta.type === 'code_interpreter') {
+        if (toolCallDelta.code_interpreter.input) {
+          res.write(toolCallDelta.code_interpreter.input);
+        }
+        if (toolCallDelta.code_interpreter.outputs) {
+          res.write("\noutput >\n");
+          toolCallDelta.code_interpreter.outputs.forEach(output => {
+            if (output.type === "logs") {
+              res.write(`\n${output.logs}\n`);
+            }
+          });
+        }
       }
-    } else {
-      res.write(run.status);
-    }
+    })
+    .on('end', () => res.end());
 
   } catch (error) {
     console.error('Error while streaming:', error);
     res.status(500).send('An error occurred while streaming data.');
-  } finally {
-      // End the response when the stream is finished
-      res.end();
   }
+  // finally {
+  //     // End the response when the stream is finished
+  //     res.end();
+  // }
 
 
 }
