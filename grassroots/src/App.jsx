@@ -63,7 +63,7 @@ function App() {
   return (
     <>
     <img src='/gr.svg'></img>
-    <h1>Grassroots bot</h1>
+    <h1 className="text-3xl font-bold underline">Grassroots bot</h1>
     {
       startForm ? <>
       <CampaignForm startClick={startClick}/>
