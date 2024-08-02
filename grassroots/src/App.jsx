@@ -1,11 +1,7 @@
 import {useState} from 'react'
-import ReactMarkdown from 'react-markdown'
-import axios from 'axios'
-import './App.css'
 import FormStartButton from './components/FormStartButton'
 import CampaignForm from './components/CampaignForm'
-
-// import markdown from './assets/tempMarkdown.js'
+import BotResponse from './components/BotResponse'
 
 function App() {
 
@@ -20,7 +16,6 @@ function App() {
   const url = 'http://localhost:3000/stream'
 
   async function startClick(data) {
-    console.log(data, 'data')
     setIsLoading(true)
     try {
       const response = await fetch(url, {
@@ -69,8 +64,7 @@ function App() {
       <CampaignForm startClick={startClick}/>
       <div>
       {isLoading ? <img src="/thinking.gif"/> : ""}
-      <ReactMarkdown>{aiChat}</ReactMarkdown>
-
+      <BotResponse aiChat={aiChat}/>
     </div>
 
       </>
@@ -78,7 +72,7 @@ function App() {
        <>
        <FormStartButton formStart={formStart}/>
        <div>
-        Chat to AI about your grassroots campaign
+        Chat to AI about your crodwfund campaign
        </div>
        </>
     }
