@@ -2,12 +2,16 @@ import {useState} from 'react'
 import FormStartButton from './components/FormStartButton'
 import CampaignForm from './components/CampaignForm'
 import BotResponse from './components/BotResponse'
+import FormModal from './components/FormModal'
+import Overview from './components/Overview'
 
 function App() {
 
-  const [aiChat, setAiChat] = useState('')
-  const [startForm, setStartForm] = useState(false)
+  const [aiChat, setAiChat] = useState('');
+  const [startForm, setStartForm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [project, setProject] = useState({});
 
   function formStart() {
     setStartForm(true)
@@ -16,7 +20,9 @@ function App() {
   const url = 'http://localhost:3000/stream'
 
   async function startClick(data) {
+    setIsSubmitted(true)
     setIsLoading(true)
+    setProject(data)
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -59,23 +65,26 @@ function App() {
     <>
     <img src='/gr.svg'></img>
     <h1 className="text-3xl font-bold underline">Grassroots bot</h1>
-    {
-      startForm ? <>
-      <CampaignForm startClick={startClick}/>
-      <div>
-      {isLoading ? <img src="/thinking.gif"/> : ""}
-      <BotResponse aiChat={aiChat}/>
-    </div>
+    <FormModal />
 
+    {
+      startForm ?
+      <>
+        {isSubmitted ? <Overview project={project}/> : <CampaignForm startClick={startClick}/>}
+        <div>
+          {isLoading ? <img src="/thinking.gif"/> : isSubmitted ? <BotResponse aiChat={aiChat}/> : ""}
+
+        </div>
       </>
        :
        <>
-       <FormStartButton formStart={formStart}/>
-       <div>
-        Chat to AI about your crodwfund campaign
-       </div>
+        <FormStartButton formStart={formStart}/>
+        <div>
+          Chat to AI about your crodwfund campaign
+        </div>
        </>
     }
+
     </>
   )
 }
