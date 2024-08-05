@@ -39,7 +39,7 @@ export default function CampaignForm({startClick}) {
             <option>Music</option>
             <option>Technology</option>
         </select>
-        <input type="submit" value="Submit" className="btn w-full max-w-xs" onClick={(e)=> {
+        <input type="submit" value="Submit" className="btn w-full max-w-xs btn-accent" onClick={(e)=> {
           e.preventDefault();
           startClick(formData)
           }}/>

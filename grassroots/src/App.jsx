@@ -1,9 +1,11 @@
 import {useState} from 'react'
+import axios from 'axios'
 import FormStartButton from './components/FormStartButton'
 import CampaignForm from './components/CampaignForm'
 import BotResponse from './components/BotResponse'
 import FormModal from './components/FormModal'
 import Overview from './components/Overview'
+import Footer from './components/Footer'
 
 function App() {
 
@@ -13,16 +15,30 @@ function App() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [project, setProject] = useState({});
 
-  function formStart() {
-    setStartForm(true)
+  function formStart(auth) {
+    axios({
+      method: 'post',
+      url: '/auth',
+      data: auth
+    })
+    .then((response)=>{
+      console.log(response)
+      setStartForm(true)
+    })
+    .catch((error) => {
+      throw new Error('Error', error)
+    })
+
   }
 
   const url = 'http://localhost:3000/stream'
 
   async function startClick(data) {
+
     setIsSubmitted(true)
     setIsLoading(true)
     setProject(data)
+
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -62,30 +78,32 @@ function App() {
 
 
   return (
-    <>
-    <img src='/gr.svg'></img>
-    <h1 className="text-3xl font-bold underline">Grassroots bot</h1>
-    <FormModal />
+    <div className="artboard-demo">
+      <img src='/gr.svg'></img>
+      <h1 className="text-3xl font-bold underline">Grassroots Bot</h1>
+      <FormModal />
 
-    {
-      startForm ?
-      <>
-        {isSubmitted ? <Overview project={project}/> : <CampaignForm startClick={startClick}/>}
-        <div>
-          {isLoading ? <img src="/thinking.gif"/> : isSubmitted ? <BotResponse aiChat={aiChat}/> : ""}
+      {
+        startForm ?
+        <>
+          {isSubmitted ? <Overview project={project}/> : <CampaignForm startClick={startClick}/>}
+          <div>
+            {isLoading ? <img src="/thinking.gif"/> : isSubmitted ? <BotResponse aiChat={aiChat}/> : ""}
 
-        </div>
-      </>
-       :
-       <>
+          </div>
+        </>
+        :
+        <>
         <FormStartButton formStart={formStart}/>
         <div>
-          Chat to AI about your crodwfund campaign
+            Chat to AI about your crodwfund campaign
         </div>
-       </>
-    }
 
-    </>
+
+        </>
+      }
+    <Footer />
+    </div>
   )
 }
 

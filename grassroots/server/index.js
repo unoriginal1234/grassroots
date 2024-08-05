@@ -1,6 +1,7 @@
 import express from 'express'
 import path from 'path'
 import goofballStream from './routes.js'
+import auth from './auth.js'
 
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '../dist')))
 
 app.post('/stream', goofballStream)
+app.post('/auth', auth)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
