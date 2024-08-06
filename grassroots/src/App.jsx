@@ -31,7 +31,7 @@ function App() {
 
   }
 
-  const url = 'http://localhost:3000/stream'
+  const url = 'https://grassroots-production.up.railway.app/stream'
 
   async function startClick(data) {
 
