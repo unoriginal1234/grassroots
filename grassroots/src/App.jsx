@@ -88,7 +88,7 @@ function App() {
         <>
           {isSubmitted ? <Overview project={project}/> : <CampaignForm startClick={startClick}/>}
           <div>
-            {isLoading ? <img src="/thinking.gif"/> : isSubmitted ? <BotResponse aiChat={aiChat}/> : ""}
+            {isLoading ? <img src="/thinking.gif" width="320" height="320" alt="a robot thinking"/> : isSubmitted ? <BotResponse aiChat={aiChat}/> : ""}
 
           </div>
         </>

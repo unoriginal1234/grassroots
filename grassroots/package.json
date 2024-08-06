@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "server": "nodemon --watch server server/index.js"
+    "server": "nodemon --watch server server/index.js",
+    "start": "node server/index.js"
   },
   "dependencies": {
     "axios": "^1.7.2",

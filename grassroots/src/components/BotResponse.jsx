@@ -8,7 +8,7 @@ export default function BotResponse({aiChat}){
         <div className="chat-image avatar">
           <div className="w-10 rounded-full">
             <img
-              alt="Tailwind CSS chat bubble component"
+              alt="thinking robot chat bubble"
               src="/thinking.gif" />
           </div>
         </div>
