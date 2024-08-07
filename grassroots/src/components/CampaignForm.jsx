@@ -3,7 +3,7 @@ import { useState } from 'react';
 export default function CampaignForm({startClick}) {
 
   const [ formData, setFormData ] = useState({
-    goal: '',
+    goal: '30000',
     country: '',
     name: '',
     type: ''
@@ -13,12 +13,17 @@ export default function CampaignForm({startClick}) {
     <>
     <div>
       <form className="form-control">
-        <label className="flex items-center gap-2">
+        {/* <label className="flex items-center gap-2">
           <input type="text" name="goal" className="input input-bordered input-primary w-full max-w-xs" placeholder="Fundraising Goal:"
           onChange={(e)=>{
             setFormData({...formData,
               goal: e.target.value})}}/>
-        </label>
+        </label> */}
+        <input type="range" min="1000" max="100000" value={formData.goal} className="range range-accent" onChange={(e)=>{
+            setFormData({...formData,
+              goal: e.target.value})}}/>
+        <p>Funraising Goal: ${Math.floor(formData.goal / 1000)},{(formData.goal % 1000).toString().padEnd(3, 0)}</p>
+
         <label className="flex items-center gap-2">
           <input type="text" name="country" className="input input-bordered input-primary w-full max-w-xs" placeholder="Country:"
           onChange={(e) => setFormData({...formData,

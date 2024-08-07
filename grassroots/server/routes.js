@@ -25,7 +25,7 @@ export default async function goofballStream(req, res) {
       thread.id,
       {
         role: "user",
-        content: `I have a project called ${project} it is in the ${country} and we want to raise ${goal}. It is a ${category}. Can you use your data to give me advice? I will not ask a follow up question, so give me a lot of information with specific numeric targets for social media presence, number of backers, number of updates, and duration.`
+        content: `I have a project called ${project} it is in the ${country} and we want to raise $${goal}. It is a ${category}. Can you use your data to give me advice? I will not ask a follow up question, so give me a lot of information with specific numeric targets for social media presence, number of backers, number of updates, and duration.`
       }
     );
 
